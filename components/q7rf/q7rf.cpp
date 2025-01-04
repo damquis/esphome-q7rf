@@ -118,7 +118,7 @@ void compile_msg(uint16_t device_id, uint8_t cmd, uint8_t *msg) {
 
   // Command
   encode_bits(device_id, 16, &cursor);
-  encode_bits(8, 4, &cursor);
+  encode_bits(2, 4, &cursor);
   encode_bits(cmd, 8, &cursor);
 
   // Repeat the command once more
