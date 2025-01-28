@@ -7,6 +7,7 @@ from esphome.const import CONF_ID
 DEPENDENCIES = ["spi"]
 
 CONF_Q7RF_DEVICE_ID = "q7rf_device_id"
+CONF_Q7RF_ZONE_CODE = "q7rf_zone_code"
 CONF_Q7RF_RESEND_INTERVAL = "q7rf_resend_interval"
 CONF_Q7RF_TURN_ON_WATCHDOG_INTERVAL = "q7rf_turn_on_watchdog_interval"
 
@@ -21,6 +22,7 @@ CONFIG_SCHEMA = (
         cv.Schema(
             {
                 cv.Required(CONF_Q7RF_DEVICE_ID): cv.hex_uint16_t,
+                cv.Required(CONF_Q7RF_ZONE_CODE): cv.uint32_t,
                 cv.Optional(CONF_Q7RF_RESEND_INTERVAL): cv.uint32_t,
                 cv.Optional(CONF_Q7RF_TURN_ON_WATCHDOG_INTERVAL): cv.uint32_t,
             }
@@ -36,6 +38,7 @@ def to_code(config):
     yield spi.register_spi_device(var, config)
 
     cg.add(var.set_q7rf_device_id(config[CONF_Q7RF_DEVICE_ID]))
+    cg.add(var.set_q7rf_zone_code(config[CONF_Q7RF_ZONE_CODE]))
     if CONF_Q7RF_RESEND_INTERVAL in config:
         cg.add(var.set_q7rf_resend_interval(config[CONF_Q7RF_RESEND_INTERVAL]))
     if CONF_Q7RF_TURN_ON_WATCHDOG_INTERVAL in config:

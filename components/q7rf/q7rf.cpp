@@ -105,7 +105,7 @@ void encode_bits(uint16_t byte, uint8_t pad_to_length, char **dest) {
   }
 }
 
-void compile_msg(uint16_t device_id, uint8_t cmd, uint8_t *msg) {
+void compile_msg(uint16_t device_id, uint8_t zone_code, uint8_t cmd, uint8_t *msg) {
   char binary_msg[360];
   char *cursor = binary_msg;
 
@@ -118,7 +118,7 @@ void compile_msg(uint16_t device_id, uint8_t cmd, uint8_t *msg) {
 
   // Command
   encode_bits(device_id, 16, &cursor);
-  encode_bits(8, 4, &cursor);
+  encode_bits(zone_code, 4, &cursor);
   encode_bits(cmd, 8, &cursor);
 
   // Repeat the command once more
@@ -329,9 +329,9 @@ void Q7RFSwitch::setup() {
   this->set_state(false);
 
   // Compile messages
-  compile_msg(this->q7rf_device_id_, Q7RF_MSG_CMD_PAIR, this->msg_pair_);
-  compile_msg(this->q7rf_device_id_, Q7RF_MSG_CMD_TURN_ON_HEATING, this->msg_heat_on_);
-  compile_msg(this->q7rf_device_id_, Q7RF_MSG_CMD_TURN_OFF_HEATING, this->msg_heat_off_);
+  compile_msg(this->q7rf_device_id_, this->q7rf_zone_code_, Q7RF_MSG_CMD_PAIR, this->msg_pair_);
+  compile_msg(this->q7rf_device_id_, this->q7rf_zone_code_, Q7RF_MSG_CMD_TURN_ON_HEATING, this->msg_heat_on_);
+  compile_msg(this->q7rf_device_id_, this->q7rf_zone_code_, Q7RF_MSG_CMD_TURN_OFF_HEATING, this->msg_heat_off_);
 
   // Register the pairing service
   register_service(&Q7RFSwitch::on_pairing, "q7rf_pair");
@@ -371,6 +371,7 @@ void Q7RFSwitch::dump_config() {
   ESP_LOGCONFIG(TAG, "Q7RF:");
   LOG_PIN("  CC1101 CS Pin: ", this->cs_);
   ESP_LOGCONFIG(TAG, "  Q7RF Device ID: 0x%04x", this->q7rf_device_id_);
+  ESP_LOGCONFIG(TAG, "  Q7RF Zone Code: %d", this->q7rf_zone_code_);
   ESP_LOGCONFIG(TAG, "  Q7RF Resend interval: %d ms", this->q7rf_resend_interval_);
   ESP_LOGCONFIG(TAG, "  Q7RF Turn on watchdog interval: %d ms", this->q7rf_turn_on_watchdog_interval_);
 }
@@ -405,6 +406,8 @@ void Q7RFSwitch::update() {
 
 void Q7RFSwitch::set_q7rf_device_id(uint16_t id) { this->q7rf_device_id_ = id; }
 
+void Q7RFSwitch::set_q7rf_zone_code(uint32_t zone_code) { this->q7rf_zone_code_ = zone_code; }
+
 void Q7RFSwitch::set_q7rf_resend_interval(uint32_t interval) { this->q7rf_resend_interval_ = interval; }
 
 void Q7RFSwitch::set_q7rf_turn_on_watchdog_interval(uint32_t interval) {
@@ -412,4 +415,5 @@ void Q7RFSwitch::set_q7rf_turn_on_watchdog_interval(uint32_t interval) {
 }
 
 }  // namespace q7rf
+
 }  // namespace esphome

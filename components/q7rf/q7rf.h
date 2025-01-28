@@ -20,6 +20,7 @@ class Q7RFSwitch : public switch_::Switch,
                                          spi::DATA_RATE_1KHZ> {
  protected:
   uint16_t q7rf_device_id_ = 0;
+  uint32_t q7rf_zone_code_ = 8;
   uint32_t q7rf_resend_interval_ = 60000;
   uint32_t q7rf_turn_on_watchdog_interval_ = 0;
 
@@ -54,6 +55,7 @@ class Q7RFSwitch : public switch_::Switch,
 
   void set_q7rf_device_id(uint16_t id);
   void set_q7rf_resend_interval(uint32_t interval);
+  void set_q7rf_zone_code(uint32_t zone_code);
   void set_q7rf_turn_on_watchdog_interval(uint32_t interval);
   void on_pairing();
 };
