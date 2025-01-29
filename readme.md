@@ -1,6 +1,6 @@
 # esphome-q7rf
 
-This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module (forked from nistvan86/esphome-q7rf). It defines a switch platform for state toggling and a service for pairing.
+This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module (forked from [nistvan86/esphome-q7rf](https://github.com/nistvan86/esphome-q7rf)). It defines a switch platform for state toggling and a service for pairing.
 
 I've tested this project with an ESP8266 module (NodeMCU). It should work with the ESP32 as well, since protocol timing critical part is done by the CC1101 modem.
 
