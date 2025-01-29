@@ -1,12 +1,15 @@
 # esphome-q7rf
 
-This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module. It defines a switch platform for state toggling and a service for pairing.
+This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module (forked from [nistvan86/esphome-q7rf](https://github.com/nistvan86/esphome-q7rf)). It defines two switch platforms for state toggling and a service for pairing.
 
 I've tested this project with an ESP8266 module (NodeMCU). It should work with the ESP32 as well, since protocol timing critical part is done by the CC1101 modem.
 
 Current tested compatible ESPHome version: v2021.10.3
 
 **Use this project at your own risk. Reporting and/or fixing issues is always welcome.**
+
+This branch controls multiple (currently 2) zones defined in the yaml file. I didn't try pairing, because I already paired two zones with the standalone version and I copied the devie IDs.
+If it fails to pair flash one zone, pair and note the the device ID and zone ID. Repeat it with the second zone and than use this code with the corresponding IDs.
 
 ## Hardware
 You need a CC1101 module which is assembled for 868 MHz. The chip on its own can be configured for many targets, but the antenna design on the board have to be tuned for the specific frequency in mind.
@@ -35,16 +38,33 @@ If you're not familiar with ESPHome and its integration with Home Assistant, ple
 Add this component using the following configuration in your node's yaml file:
 
     external_components:
-      - source: github://nistvan86/esphome-q7rf@main
+      - source:
+          type: git
+          url: https://github.com/damquis/esphome-q7rf
+          ref: multizone
         components: [ q7rf ]
+        refresh: 0s
 
     switch:
       - platform: q7rf
-        name: Q7RF switch
-        cs_pin: D8
-        q7rf_device_id: 0x6ed5
+        name: Zone 1
+        cs_pin:
+          number: GPIO15
+          allow_other_uses: true
+        q7rf_device_id: 0xaaaa
+        q7rf_zone_code: 8
         q7rf_resend_interval: 60000
-        q7rf_turn_on_watchdog_interval: 0
+        q7rf_turn_on_watchdog_interval: 600000
+    
+      - platform: q7rf
+        name: Zone 2
+        cs_pin:
+          number: GPIO15
+          allow_other_uses: true
+        q7rf_device_id: 0xaaab
+        q7rf_zone_code: 4
+        q7rf_resend_interval: 60000
+        q7rf_turn_on_watchdog_interval: 600000
 
     spi:
       clk_pin: D5
@@ -53,6 +73,8 @@ Add this component using the following configuration in your node's yaml file:
 
 Where:
 * `q7rf_device_id` (required): is a 16 bit transmitter specific ID and learnt by the receiver in the pairing process. If you operate multiple furnaces in the vicinity you must specify unique IDs for each transmitter. You can generate random identifiers for example with [random-hex](https://www.browserling.com/tools/random-hex) (use 4 digits).
+
+* `q7rf_zone_code` (required): more info [here](https://github.com/nistvan86/esphome-q7rf/issues/2#issuecomment-972956483). 
 
 * `q7rf_resend_interval` (optional): specifies how often to repeat the last state in milliseconds. Since this is a simplex protocol, there's no response arriving from the receiver and we need to compensate for corrupt or lost messages by repeating them.
 
