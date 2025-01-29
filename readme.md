@@ -8,7 +8,7 @@ Current tested compatible ESPHome version: v2021.10.3
 
 **Use this project at your own risk. Reporting and/or fixing issues is always welcome.**
 
-This branch controls multiple (currently 2) zones defined in the yaml file. I didn't try pairing, because I already paired two zones with the standalone version and I copied the devie IDs.
+This branch controls multiple (currently 2) zones defined in the yaml file. I didn't try pairing, because I already paired two zones with the standalone version and I copied the device IDs.
 If it fails to pair flash one zone, pair and note the the device ID and zone ID. Repeat it with the second zone and than use this code with the corresponding IDs.
 
 ## Hardware
