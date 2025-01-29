@@ -37,7 +37,7 @@ If you're not familiar with ESPHome and its integration with Home Assistant, ple
 Add this component using the following configuration in your node's yaml file:
 
     external_components:
-      - source: github://nistvan86/esphome-q7rf@main
+      - source: github://damquis/esphome-q7rf@zone1
         components: [ q7rf ]
 
     switch:
