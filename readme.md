@@ -1,12 +1,14 @@
 # esphome-q7rf
 
-This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module. It defines a switch platform for state toggling and a service for pairing.
+This is an ESPHome custom component which allows you to control a Computherm/Delta Q7RF/Q8RF receiver equiped furnace using a TI CC1101 transceiver module (forked from [nistvan86/esphome-q7rf](https://github.com/nistvan86/esphome-q7rf)). It defines a switch platform for state toggling and a service for pairing.
 
 I've tested this project with an ESP8266 module (NodeMCU). It should work with the ESP32 as well, since protocol timing critical part is done by the CC1101 modem.
 
 Current tested compatible ESPHome version: v2021.10.3
 
 **Use this project at your own risk. Reporting and/or fixing issues is always welcome.**
+
+This branch controls ony zone 3. If you need to control an another zone sitch to the corresponding branch. If you want to control multiple zones check the [multizone brach](https://github.com/damquis/esphome-q7rf/tree/multizone).
 
 ## Hardware
 You need a CC1101 module which is assembled for 868 MHz. The chip on its own can be configured for many targets, but the antenna design on the board have to be tuned for the specific frequency in mind.
@@ -35,7 +37,7 @@ If you're not familiar with ESPHome and its integration with Home Assistant, ple
 Add this component using the following configuration in your node's yaml file:
 
     external_components:
-      - source: github://nistvan86/esphome-q7rf@main
+      - source: github://damquis/esphome-q7rf@zone3
         components: [ q7rf ]
 
     switch:
