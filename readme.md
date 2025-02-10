@@ -8,7 +8,7 @@ Current tested compatible ESPHome version: v2021.10.3
 
 **Use this project at your own risk. Reporting and/or fixing issues is always welcome.**
 
-This branch controls ony zone 2. If you need to control an another zone sitch to the corresponding branch. If you want to control multiple zones check the [multizone brach](https://github.com/damquis/esphome-q7rf/tree/multizone).
+This branch controls ony zone 2. If you need to control an another zone switch to the corresponding branch. If you want to control multiple zones check the [multizone brach](https://github.com/damquis/esphome-q7rf/tree/multizone).
 
 ## Hardware
 You need a CC1101 module which is assembled for 868 MHz. The chip on its own can be configured for many targets, but the antenna design on the board have to be tuned for the specific frequency in mind.
