@@ -333,8 +333,15 @@ void Q7RFSwitch::setup() {
   compile_msg(this->q7rf_device_id_, this->q7rf_zone_code_, Q7RF_MSG_CMD_TURN_ON_HEATING, this->msg_heat_on_);
   compile_msg(this->q7rf_device_id_, this->q7rf_zone_code_, Q7RF_MSG_CMD_TURN_OFF_HEATING, this->msg_heat_off_);
 
-  // Register the pairing service
+  // Register the pairing service if ESPHome API custom services are enabled.
+  // Since ESPHome 2026.x custom services must be explicitly enabled with
+  // `api: custom_services: true`; otherwise calling register_service() causes
+  // a compile-time error.
+#ifdef USE_API_CUSTOM_SERVICES
   register_service(&Q7RFSwitch::on_pairing, "q7rf_pair");
+#else
+  ESP_LOGW(TAG, "Q7RF pairing service disabled. Add 'custom_services: true' under 'api:' to enable q7rf_pair.");
+#endif
 
   this->spi_setup();
   if (this->reset_cc()) {

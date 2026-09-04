@@ -4,7 +4,7 @@ from esphome.components import switch
 from esphome.components import spi
 from esphome.const import CONF_ID
 
-DEPENDENCIES = ["spi"]
+DEPENDENCIES = ["spi", "api"]
 
 CONF_Q7RF_DEVICE_ID = "q7rf_device_id"
 CONF_Q7RF_ZONE_CODE = "q7rf_zone_code"
@@ -31,11 +31,11 @@ CONFIG_SCHEMA = (
 )
 
 
-def to_code(config):
+async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    yield cg.register_component(var, config)
-    yield switch.register_switch(var, config)
-    yield spi.register_spi_device(var, config)
+    await cg.register_component(var, config)
+    await switch.register_switch(var, config)
+    await spi.register_spi_device(var, config)
 
     cg.add(var.set_q7rf_device_id(config[CONF_Q7RF_DEVICE_ID]))
     cg.add(var.set_q7rf_zone_code(config[CONF_Q7RF_ZONE_CODE]))
