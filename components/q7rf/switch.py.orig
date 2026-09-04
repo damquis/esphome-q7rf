@@ -4,7 +4,7 @@ from esphome.components import switch
 from esphome.components import spi
 from esphome.const import CONF_ID
 
-DEPENDENCIES = ["spi", "api"]
+DEPENDENCIES = ["spi"]
 
 CONF_Q7RF_DEVICE_ID = "q7rf_device_id"
 CONF_Q7RF_RESEND_INTERVAL = "q7rf_resend_interval"
@@ -29,11 +29,11 @@ CONFIG_SCHEMA = (
 )
 
 
-async def to_code(config):
+def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
-    await cg.register_component(var, config)
-    await switch.register_switch(var, config)
-    await spi.register_spi_device(var, config)
+    yield cg.register_component(var, config)
+    yield switch.register_switch(var, config)
+    yield spi.register_spi_device(var, config)
 
     cg.add(var.set_q7rf_device_id(config[CONF_Q7RF_DEVICE_ID]))
     if CONF_Q7RF_RESEND_INTERVAL in config:
