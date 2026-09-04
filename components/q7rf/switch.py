@@ -15,7 +15,7 @@ q7rf_ns = cg.esphome_ns.namespace("q7rf")
 Q7RF_SWITCH = q7rf_ns.class_("Q7RFSwitch", switch.Switch, cg.Component, spi.SPIDevice)
 
 CONFIG_SCHEMA = (
-    switch.SWITCH_SCHEMA.extend({cv.GenerateID(): cv.declare_id(Q7RF_SWITCH)})
+    switch.switch_schema(Q7RF_SWITCH)
     .extend(cv.COMPONENT_SCHEMA)
     .extend(spi.spi_device_schema(cs_pin_required=True))
     .extend(
